@@ -6,6 +6,7 @@ import {
 import {
   equalityHandler,
   joinByOperatorHandler,
+  macroHandler,
   negationHandler,
   nullsHandler,
 } from "./where-handlers.js";
@@ -69,7 +70,11 @@ const CLAUSES_MAP = {
     handler: (args, fields, macros, depth) => `${fields[args[0]]}`,
   },
   macro: {
-    handler: (args, fields, macros, depth) => `${fields[args[0]]}`,
+    handler: macroHandler(whereBuilder),
+    validationRules: {
+      exactParams: 1,
+      allowedTypes: ["string"],
+    },
   },
 };
 

@@ -52,6 +52,11 @@ export function whereValidator(clauses, where, fields, macros, errors = []) {
         `Not all the parameters passed are valid for clause: "${operator}"`
       );
     }
+    if (operator === "macro" && !macros.hasOwnProperty(args[0])) {
+      errors.push(
+        `Macro ${args[0]} does not exist in macros object`
+      );
+    }
   } else {
     for (const arg of args) {
       if (Array.isArray(arg)) {

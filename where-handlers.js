@@ -63,3 +63,6 @@ export const equalityHandler =
       }
     }
   };
+
+export const macroHandler = (argumentMapper) => (args, fields, macros, depth) =>
+  argumentMapper(macros[args[0]], fields, macros, depth);
