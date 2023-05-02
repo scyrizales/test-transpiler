@@ -7,28 +7,6 @@ const fields = {
   4: "age",
 };
 
-console.log(
-  generateSql(
-    "postgres",
-    fields,
-    { where: ["and", ["<", ["field", 1], 5], ["macro", "is_joe"]] },
-    { is_joe: ["=", ["field", 2], "joe"] }
-  )
-);
-
-console.log(
-  generateSql(
-    "postgres",
-    fields,
-    { where: ["and", ["<", ["field", 1], 5], ["macro", "is_old_joe"]] },
-    {
-      is_joe: ["=", ["field", 2], "joe"],
-      is_old: [">", ["field", 4], 18],
-      is_old_joe: ["and", ["macro", "is_joe"], ["macro", "is_old"]],
-    }
-  )
-);
-
 console.log(generateSql("postgres", fields, {"where": ["=", ["field", 3], null]}))
 console.log("SELECT * FROM data WHERE date_joined IS NULL")
 console.log("")
@@ -83,3 +61,27 @@ console.log(generateSql( "sqlserver", fields, {"limit": 20}))
 console.log("SELECT TOP 20 * FROM data;")
 console.log("")
 // -> "SELECT TOP 20 * FROM data;"
+
+console.log("");
+console.log("MACROS");
+console.log(
+  generateSql(
+    "postgres",
+    fields,
+    { where: ["and", ["<", ["field", 1], 5], ["macro", "is_joe"]] },
+    { is_joe: ["=", ["field", 2], "joe"] }
+  )
+);
+
+console.log(
+  generateSql(
+    "postgres",
+    fields,
+    { where: ["and", ["<", ["field", 1], 5], ["macro", "is_old_joe"]] },
+    {
+      is_joe: ["=", ["field", 2], "joe"],
+      is_old: [">", ["field", 4], 18],
+      is_old_joe: ["and", ["macro", "is_joe"], ["macro", "is_old"]],
+    }
+  )
+);
