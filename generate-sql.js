@@ -1,3 +1,4 @@
+import { limitHandler } from "./limit-handlers.js";
 import {
   
   whereValidator,
@@ -7,7 +8,7 @@ import {
   joinByOperatorHandler,
   negationHandler,
   nullsHandler,
-} from "./clause-handlers.js";
+} from "./where-handlers.js";
 
 export const Dialect = {
   SQLSERVER: "sqlserver",
@@ -95,5 +96,9 @@ export function generateSql(dialect, fields, query, macros = {}) {
   if (query?.where) {
     response.push(`WHERE ${whereBuilder(query.where, fields, macros)}`);
   }
-  return response.join(" ");
+  const queryString = response.join(" ");
+  if (query?.limit) {
+    return limitHandler(dialect, queryString, query.limit)
+  }
+  return queryString;
 }
